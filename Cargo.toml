@@ -11,3 +11,4 @@ surrealdb-schema-derive = {path = "../patch/surrealdb-schema-derive"}
 # surrealdb-schema-derive={git="https://github.com/KeatonTech/surrealdb-schema-derive"}
 once_cell = "^1.15.0"
 # surreal-simple-querybuilder = {path = "../patch/surreal-simple-querybuilder"}
+insta = "1.21.0"
