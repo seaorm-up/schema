@@ -21,5 +21,5 @@ pub trait StrDb {
 
 * release
 ```
-cargo release publish --workspace --registry crates-io 
+cargo release publish --workspace --execute
 ```

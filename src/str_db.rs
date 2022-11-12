@@ -14,10 +14,7 @@ pub trait StrDb {
 #[async_trait]
 impl StrDb for &str {
     async fn execute_silent(&self) -> bool {
-        DBX.get()
-            .unwrap()
-            .execute_silent(self.to_string())
-            .await
+        DBX.get().unwrap().execute_silent(self.to_string()).await
     }
     async fn raw_execute_one(&self) -> Result<Vec<Value>, Error> {
         DBX.get().unwrap().raw_execute_one(self.to_string()).await
@@ -29,7 +26,11 @@ impl StrDb for &str {
         <T as TryFrom<SurrealValue>>::Error: Sync,
         <T as TryFrom<SurrealValue>>::Error: 'static,
     {
-        DBX.get().unwrap().execute_one::<T>(self.to_string()).await.unwrap()
+        DBX.get()
+            .unwrap()
+            .execute_one::<T>(self.to_string())
+            .await
+            .unwrap()
     }
 }
 
@@ -49,5 +50,23 @@ impl StrDb for String {
         <T as TryFrom<SurrealValue>>::Error: 'static,
     {
         self.as_str().execute_one::<T>().await
+    }
+}
+
+#[cfg(test)]
+mod display {
+    use crate::*;
+
+    #[derive(SurrealDbObject, Debug, Clone)]
+    pub struct App {
+        pub name: String,
+    }
+    #[test]
+    fn test_display() {
+        let app = App {
+            name: "app_switcher".to_owned(),
+        };
+        let sql = format!("create app CONTENT {}", app);
+        assert_debug_snapshot!(sql);
     }
 }

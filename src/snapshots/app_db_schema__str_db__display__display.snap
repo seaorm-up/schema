@@ -1,0 +1,5 @@
+---
+source: src/str_db.rs
+expression: sql
+---
+"create app CONTENT { name: 'app_switcher' }"
