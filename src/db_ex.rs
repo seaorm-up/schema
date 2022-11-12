@@ -1,6 +1,6 @@
 use crate::*;
 use once_cell::sync::OnceCell;
-use surrealdb_schema_derive::SurrealValue;
+use surrealdb_obj_derive::SurrealValue;
 
 pub static DBX: OnceCell<DbX> = OnceCell::new();
 
@@ -20,7 +20,7 @@ impl DbX {
     }
 
     /// silent execute
-    pub async fn execute_silent<T: TryFrom<SurrealValue>>(&self, txt: String) -> bool {
+    pub async fn execute_silent(&self, txt: String) -> bool {
         let responses = self
             .datastore
             .execute(&txt, &self.session, None, false)

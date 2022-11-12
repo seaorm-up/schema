@@ -1,0 +1,28 @@
+---
+source: src/relate_ex.rs
+expression: v
+---
+Ok(
+    [
+        Relation {
+            id: Thing {
+                tb: "identity",
+                id: String(
+                    "upqfom2rgvi13q0u7gc3",
+                ),
+            },
+            from: Thing {
+                tb: "mobile",
+                id: Number(
+                    123,
+                ),
+            },
+            with: Thing {
+                tb: "account",
+                id: String(
+                    "hz",
+                ),
+            },
+        },
+    ],
+)

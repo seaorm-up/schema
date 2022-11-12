@@ -1,14 +1,18 @@
 [package]
+description = "a common package for app"
 edition = "2021"
+license = "MIT"
 name = "schema"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-db_dep = {path = "../db_dep"}
-surrealdb-schema-derive = {path = "../patch/surrealdb-schema-derive"}
-# surrealdb-schema-derive={git="https://github.com/KeatonTech/surrealdb-schema-derive"}
-once_cell = "^1.15.0"
-# surreal-simple-querybuilder = {path = "../patch/surreal-simple-querybuilder"}
+db_dep = {path = "../db_dep", version = "^0.1.0"}
 insta = "1.21.0"
+once_cell = "^1.15.0"
+surrealdb-obj-derive = {path = "../patch/surrealdb-schema-derive"}
+
+[dev-dependencies.db_dep]
+features = ["test"]
+path = "../db_dep"

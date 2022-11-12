@@ -1,0 +1,36 @@
+---
+source: src/relate_ex.rs
+expression: v
+---
+[
+    Object(
+        Object(
+            {
+                "id": Thing(
+                    Thing {
+                        tb: "identity",
+                        id: String(
+                            "61zy3c103jmk33rlvt5e",
+                        ),
+                    },
+                ),
+                "in": Thing(
+                    Thing {
+                        tb: "mobile",
+                        id: Number(
+                            123,
+                        ),
+                    },
+                ),
+                "out": Thing(
+                    Thing {
+                        tb: "account",
+                        id: String(
+                            "hz",
+                        ),
+                    },
+                ),
+            },
+        ),
+    ),
+]
