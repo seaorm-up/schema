@@ -24,6 +24,10 @@ mod relate_ex;
 pub use relate_ex::*;
 mod str_db;
 pub use str_db::*;
+// mod macro_model;
+// pub use macro_model::*;
+
+pub use paste::paste;
 
 #[macro_export]
 macro_rules! map {
