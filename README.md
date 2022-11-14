@@ -38,8 +38,15 @@ mod test {
     smethod!(
         format("create app CONTENT {}", instance, instance),
         App,
-        create_app,
-        get_app
+        create_app
+    );
+    // delete would return [] all ways
+    // create as test would return value, so it is no need aa get_app
+    smethod!(
+        format("delete app where name='{}'", instance, instance.name),
+        App,
+        delete,
+        [create_app][get_app]
     );
 
     smethod!(
@@ -55,7 +62,15 @@ mod test {
 
 ```
 > check snapshots files to find features
+
+* filter
+set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
+
 # release
 ```
 cargo release publish --workspace --execute
+```
+# test
+```
+cargo insta test  --review --delete-unreferenced-snapshots
 ```

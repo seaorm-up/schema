@@ -10,7 +10,10 @@ pub async fn new_db() {
 
 #[macro_export]
 macro_rules! smethod {
-    (format($sql:tt, $instance:ident, $($arg:expr)*),$item:ident,$method:ident) => {
+    (
+        format($sql:tt, $instance:ident $(,$arg:expr)*),
+        $item:ident,$method:ident
+    ) => {
         paste!{
             #[cfg(test)]
             #[test]
@@ -32,7 +35,12 @@ macro_rules! smethod {
     };
 // }
 // macro_rules! cud {
-    (format($sql:tt, $instance:ident, $($arg:expr)*),$item:ident,$method:ident,$check_method:ident) => {
+    (
+        format($sql:tt, $instance:ident, $($arg:expr)*),
+        $item:ident,$method:ident,
+        [$($before_check:ident)*]
+        [$($after_check:ident)*]
+    ) => {
         paste!{
             #[cfg(test)]
             #[test]
@@ -48,13 +56,17 @@ macro_rules! smethod {
                 let $instance = instance();
 
                 set_snapshot_suffix!("before_hook");
-                assert_debug_snapshot!($item::[<$check_method _execute>](&$instance).await);
+                $(
+                    assert_debug_snapshot!($item::[<$before_check _execute>](&$instance).await);
+                )*
                 set_snapshot_suffix!("check_execute");
                 assert_debug_snapshot!(
                     $item::[<$method _check>](&$instance).await
                 );
                 set_snapshot_suffix!("after_hook");
-                assert_debug_snapshot!($item::[<$check_method _execute>](&$instance).await);
+                $(
+                    assert_debug_snapshot!($item::[<$after_check _execute>](&$instance).await);
+                )*
             }
 
 
@@ -88,8 +100,15 @@ mod test {
     smethod!(
         format("create app CONTENT {}", instance, instance),
         App,
-        create_app,
-        get_app
+        create_app // [get_app][get_app]
+    );
+    // delete would return [] all ways
+    // create as test would return value, so it is no need aa get_app
+    smethod!(
+        format("delete app where name='{}'", instance, instance.name),
+        App,
+        delete,
+        [create_app][get_app]
     );
 
     smethod!(

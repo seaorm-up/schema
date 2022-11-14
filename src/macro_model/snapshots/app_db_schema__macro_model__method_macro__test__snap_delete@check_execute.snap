@@ -1,0 +1,5 @@
+---
+source: src/macro_model/method_macro.rs
+expression: "App::delete_check(&instance).await"
+---
+false
