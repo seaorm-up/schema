@@ -10,7 +10,7 @@ expression: v
                     Thing {
                         tb: "identity",
                         id: String(
-                            "ytwrqhq23qgwslqcnv3j",
+                            "[UID]",
                         ),
                     },
                 ),

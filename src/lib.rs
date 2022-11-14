@@ -10,6 +10,14 @@ macro_rules! set_snapshot_suffix {
       let _guard = settings.bind_to_scope();
   }
 }
+#[macro_export]
+macro_rules! set_filters {
+    ($regex:literal, $replace:literal,) => {
+        let mut settings = insta::Settings::clone_current();
+        settings.add_filter($regex, $replace);
+        let _guard = settings.bind_to_scope();
+    };
+}
 pub use surrealdb::sql::{thing, Id, Thing, Value, Values};
 pub use surrealdb::{Datastore, Error, Session};
 pub use surrealdb_obj_derive;

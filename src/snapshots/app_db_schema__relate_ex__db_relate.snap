@@ -8,7 +8,7 @@ Ok(
             id: Thing {
                 tb: "identity",
                 id: String(
-                    "rcw1zve4i6uy9zmso575",
+                    "[UID]",
                 ),
             },
             from: Thing {

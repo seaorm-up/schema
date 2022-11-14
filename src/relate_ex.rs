@@ -23,6 +23,7 @@ async fn test_raw_db_relate() {
     let create_identity = format!("relate mobile:123->identity->account:hz");
     let v = db.raw_execute_one(create_identity).await.unwrap();
     // dbg!(&v);
+    set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
     assert_debug_snapshot!(v);
 }
 #[tokio::test]
@@ -33,6 +34,8 @@ async fn test_db_relate() {
     let db = DBX.get().unwrap();
     let create_identity = format!("relate mobile:123->identity->account:hz");
     let v = db.execute_one::<Relation>(create_identity).await;
+
+    set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
     assert_debug_snapshot!(v);
 }
 
