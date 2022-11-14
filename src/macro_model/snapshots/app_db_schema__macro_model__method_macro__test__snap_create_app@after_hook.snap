@@ -1,0 +1,9 @@
+---
+source: src/macro_model/method_macro.rs
+expression: "App::get_app_execute(&instance).await"
+---
+[
+    App {
+        name: "'adf'",
+    },
+]

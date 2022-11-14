@@ -1,0 +1,5 @@
+---
+source: src/macro_model/method_macro.rs
+expression: "format!(\"select * from app where name = '{}'\", instance.name)"
+---
+"select * from app where name = 'adf'"

@@ -39,6 +39,9 @@ impl DbX {
                 .unwrap(),
         ))
     }
+    pub async fn check_exist(&self, txt: String) -> bool {
+        self.raw_execute_one(txt).await.unwrap().len() > 0
+    }
     pub async fn execute_one<T: TryFrom<SurrealValue>>(&self, txt: String) -> Result<Vec<T>, Error>
     where
         <T as TryFrom<SurrealValue>>::Error: std::error::Error,

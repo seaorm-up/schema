@@ -4,6 +4,7 @@ use crate::*;
 pub trait StrDb {
     async fn execute_silent(&self) -> bool;
     async fn raw_execute_one(&self) -> Result<Vec<Value>, Error>;
+    async fn check_exist(&self) -> bool;
     async fn execute_one<T: TryFrom<SurrealValue>>(&self) -> Vec<T>
     where
         <T as TryFrom<SurrealValue>>::Error: std::error::Error,
@@ -18,6 +19,9 @@ impl StrDb for &str {
     }
     async fn raw_execute_one(&self) -> Result<Vec<Value>, Error> {
         DBX.get().unwrap().raw_execute_one(self.to_string()).await
+    }
+    async fn check_exist(&self) -> bool {
+        DBX.get().unwrap().check_exist(self.to_string()).await
     }
     async fn execute_one<T: TryFrom<SurrealValue>>(&self) -> Vec<T>
     where
@@ -41,6 +45,9 @@ impl StrDb for String {
     }
     async fn raw_execute_one(&self) -> Result<Vec<Value>, Error> {
         self.as_str().raw_execute_one().await
+    }
+    async fn check_exist(&self) -> bool {
+        self.as_str().check_exist().await
     }
     async fn execute_one<T: TryFrom<SurrealValue>>(&self) -> Vec<T>
     where

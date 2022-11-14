@@ -1,0 +1,5 @@
+---
+source: src/macro_model/method_macro.rs
+expression: "format!(\"create app CONTENT {}\", instance)"
+---
+"create app CONTENT { name: 'adf' }"
