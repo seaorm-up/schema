@@ -1,6 +1,5 @@
 use crate::*;
 use once_cell::sync::OnceCell;
-use surrealdb_obj_derive::SurrealValue;
 
 pub static DBX: OnceCell<DbX> = OnceCell::new();
 
@@ -42,13 +41,10 @@ impl DbX {
     pub async fn check_exist(&self, txt: String) -> bool {
         self.raw_execute_one(txt).await.unwrap().len() > 0
     }
-    pub async fn execute_one<T: TryFrom<SurrealValue>>(&self, txt: String) -> Result<Vec<T>, Error>
-    where
-        <T as TryFrom<SurrealValue>>::Error: std::error::Error,
-        <T as TryFrom<SurrealValue>>::Error: Send,
-        <T as TryFrom<SurrealValue>>::Error: Sync,
-        <T as TryFrom<SurrealValue>>::Error: 'static,
-    {
+    pub async fn execute_one<T: for<'a> Deserialize<'a>>(
+        &self,
+        txt: String,
+    ) -> Result<Vec<T>, Error> {
         let v = self
             .datastore
             .execute(&txt, &self.session, None, false)
@@ -58,17 +54,12 @@ impl DbX {
     }
 }
 
-fn to_objects<T: TryFrom<SurrealValue>>(values: Vec<Value>) -> Vec<T>
-where
-    <T as TryFrom<SurrealValue>>::Error: std::error::Error,
-    <T as TryFrom<SurrealValue>>::Error: Send,
-    <T as TryFrom<SurrealValue>>::Error: Sync,
-    <T as TryFrom<SurrealValue>>::Error: 'static,
-{
-    values
-        .into_iter()
-        .map(|value| SurrealValue(value).try_into().unwrap())
-        .collect::<Vec<T>>()
+fn to_objects<T: for<'a> Deserialize<'a>>(values: Vec<Value>) -> Vec<T> {
+    // values
+    //     .into_iter()
+    //     .map(|value| -> T { deserialize::<T>(serialize(&value)) })
+    //     .collect::<Vec<T>>()
+    deserialize::<Vec<T>>(serialize(values))
 }
 
 fn first(responses: Vec<surrealdb::Response>) -> Vec<Value> {
@@ -79,3 +70,34 @@ fn first(responses: Vec<surrealdb::Response>) -> Vec<Value> {
         .map(|result_value| Vec::<Value>::try_from(result_value).unwrap())
         .unwrap()
 }
+
+#[cfg(feature = "serde_json")]
+pub fn serialize<T: Serialize>(i: T) -> serde_json::Value {
+    serde_json::to_value(i).unwrap()
+}
+#[cfg(feature = "serde_json")]
+pub fn deserialize<T: for<'a> Deserialize<'a>>(i: serde_json::Value) -> T {
+    serde_json::from_value::<T>(i.clone()).unwrap_or_else(|e| {
+        panic!(
+            "Failed to convert to JSON, results: {:?}, detail: {:?}",
+            i, e
+        )
+    })
+}
+
+#[cfg(feature = "bincode")]
+pub fn serialize<T: Serialize>(i: T) -> Vec<u8> {
+    bincode::serialize(&i).unwrap()
+}
+#[cfg(feature = "bincode")]
+pub fn deserialize<T: for<'a> Deserialize<'a>>(i: Vec<u8>) -> T {
+    bincode::deserialize::<T>(&i).unwrap_or_else(|e| {
+        panic!(
+            "Failed to convert to JSON, results: {:?}, detail: {:?}",
+            i, e
+        )
+    })
+}
+
+#[cfg(test)]
+mod db_test;

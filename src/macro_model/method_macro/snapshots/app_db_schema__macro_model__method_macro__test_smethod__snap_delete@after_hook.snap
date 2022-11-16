@@ -1,5 +1,5 @@
 ---
-source: src/macro_model/method_macro.rs
+source: src/macro_model/method_macro/test_smethod.rs
 expression: "App::get_app_execute(&instance).await"
 ---
 []

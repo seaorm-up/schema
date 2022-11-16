@@ -1,13 +1,3 @@
-// smethod!(str,method_name,executor)
-use crate::*;
-
-#[feature(test)]
-pub async fn new_db() {
-    DbX::new("test".to_owned(), "test".to_owned(), "memory".to_owned())
-        .await
-        .ok();
-}
-
 #[macro_export]
 macro_rules! smethod {
     (
@@ -19,6 +9,7 @@ macro_rules! smethod {
             #[test]
             fn [<snap_ $method _str>]() {
                 let $instance = instance();
+                set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
                 assert_debug_snapshot!(format!($sql, $($arg)*));
             }
 
@@ -46,6 +37,7 @@ macro_rules! smethod {
             #[test]
             fn [<snap_ $method _str>]() {
                 let $instance = instance();
+                set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
                 assert_debug_snapshot!(format!($sql, $($arg)*));
             }
 
@@ -54,7 +46,7 @@ macro_rules! smethod {
             async fn [<snap_ $method>]() {
                 new_db().await;
                 let $instance = instance();
-
+                set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
                 set_snapshot_suffix!("before_hook");
                 $(
                     assert_debug_snapshot!($item::[<$before_check _execute>](&$instance).await);
@@ -84,40 +76,4 @@ macro_rules! smethod {
 
 }
 
-#[cfg(test)]
-#[derive(SurrealDbObject, Debug, Clone)]
-pub struct App {
-    pub name: String,
-}
-#[cfg(test)]
-mod test {
-    use crate::*;
-    fn instance() -> App {
-        App {
-            name: "adf".to_owned(),
-        }
-    }
-    smethod!(
-        format("create app CONTENT {}", instance, instance),
-        App,
-        create_app // [get_app][get_app]
-    );
-    // delete would return [] all ways
-    // create as test would return value, so it is no need aa get_app
-    smethod!(
-        format("delete app where name='{}'", instance, instance.name),
-        App,
-        delete,
-        [create_app][get_app]
-    );
-
-    smethod!(
-        format(
-            "select * from app where name = '{}'",
-            instance,
-            instance.name
-        ),
-        App,
-        get_app
-    );
-}
+mod test_smethod;

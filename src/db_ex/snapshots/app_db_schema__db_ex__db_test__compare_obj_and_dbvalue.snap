@@ -1,0 +1,16 @@
+---
+source: src/db_ex/db_test.rs
+expression: "[serialize(i), serialize(&ret)]"
+---
+[
+    Object {
+        "id": String("app:[UID]"),
+        "name": String("adf"),
+    },
+    Array [
+        Object {
+            "id": String("app:[UID]"),
+            "name": String("adf"),
+        },
+    ],
+]

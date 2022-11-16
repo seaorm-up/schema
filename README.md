@@ -11,12 +11,7 @@ or something ref to
 pub trait StrDb {
         async fn execute_silent(&self) -> bool;
     async fn raw_execute_one(&self) -> Result<Vec<Value>, Error>;
-    async fn execute_one<T: TryFrom<SurrealValue>>(&self) -> Vec<T>
-    where
-        <T as TryFrom<SurrealValue>>::Error: std::error::Error,
-        <T as TryFrom<SurrealValue>>::Error: Send,
-        <T as TryFrom<SurrealValue>>::Error: Sync,
-        <T as TryFrom<SurrealValue>>::Error: 'static;
+    async fn execute_one<T: for<'a> Deserialize<'a>>(&self) -> Vec<T>;
 }
 ```
 
@@ -28,7 +23,7 @@ pub struct App {
     pub name: String,
 }
 #[cfg(test)]
-mod test {
+pub mod test {
     use crate::*;
     fn instance() -> App {
         App {
@@ -73,4 +68,5 @@ cargo release publish --workspace --execute
 # test
 ```
 cargo insta test  --review --delete-unreferenced-snapshots
+cargo insta review
 ```

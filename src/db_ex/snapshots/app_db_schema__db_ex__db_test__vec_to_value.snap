@@ -1,0 +1,26 @@
+---
+source: src/db_ex/db_test.rs
+expression: "IntoValue::into(i)"
+---
+Array(
+    Array(
+        [
+            Object(
+                Object(
+                    {
+                        "id": Strand(
+                            Strand(
+                                "app:[UID]",
+                            ),
+                        ),
+                        "name": Strand(
+                            Strand(
+                                "adf",
+                            ),
+                        ),
+                    },
+                ),
+            ),
+        ],
+    ),
+)

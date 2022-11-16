@@ -1,0 +1,8 @@
+---
+source: src/db_ex/db_test.rs
+expression: "&serialize(serde_json::to_value(&i).unwrap())"
+---
+Object {
+    "id": String("app:[UID]"),
+    "name": String("adf"),
+}

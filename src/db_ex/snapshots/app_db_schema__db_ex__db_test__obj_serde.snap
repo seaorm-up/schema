@@ -1,0 +1,30 @@
+---
+source: src/db_ex/db_test.rs
+expression: "(&serialize(&i), deserialize::<App>(serialize(&i)), Into::<Value>::into(i))"
+---
+(
+    Object {
+        "id": String("app:i2esfym6g2fh06svw449"),
+        "name": String("adf"),
+    },
+    App {
+        id: "app:i2esfym6g2fh06svw449",
+        name: "adf",
+    },
+    Object(
+        Object(
+            {
+                "id": Strand(
+                    Strand(
+                        "app:i2esfym6g2fh06svw449",
+                    ),
+                ),
+                "name": Strand(
+                    Strand(
+                        "adf",
+                    ),
+                ),
+            },
+        ),
+    ),
+)

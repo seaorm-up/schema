@@ -1,0 +1,10 @@
+---
+source: src/macro_model/method_macro/test_smethod.rs
+expression: "App::create_app_execute(&instance).await"
+---
+[
+    App {
+        id: "app:[UID]",
+        name: "adf",
+    },
+]

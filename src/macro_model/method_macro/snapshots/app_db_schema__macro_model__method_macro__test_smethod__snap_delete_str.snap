@@ -1,5 +1,5 @@
 ---
-source: src/macro_model/method_macro.rs
+source: src/macro_model/method_macro/test_smethod.rs
 expression: "format!(\"delete app where name='{}'\", instance.name)"
 ---
 "delete app where name='adf'"

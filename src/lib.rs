@@ -18,12 +18,17 @@ macro_rules! set_filters {
         let _guard = settings.bind_to_scope();
     };
 }
-pub use surrealdb::sql::{thing, Id, Thing, Value, Values};
+
+pub use async_trait::async_trait;
+#[cfg(feature = "bincode")]
+pub use bincode;
+pub use serde::{self, Deserialize, Serialize};
+#[cfg(feature = "serde_json")]
+pub use serde_json;
+
+pub use surrealdb::sql::{thing, Array, Id, Thing, Value, Values};
 pub use surrealdb::{Datastore, Error, Session};
-pub use surrealdb_obj_derive;
-pub use surrealdb_obj_derive::anyhow::Result;
-pub use surrealdb_obj_derive::async_trait::async_trait;
-pub use surrealdb_obj_derive::{SurrealDbObject, SurrealValue};
+pub use surrealdb_obj_derive::{IntoValue, SurrealDbObject};
 pub use tokio::sync::{mpsc, oneshot};
 
 mod db_ex;

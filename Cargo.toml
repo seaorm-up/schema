@@ -9,15 +9,24 @@ version = "0.1.2"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async-trait = "^0.1.58"
+bincode = "^1.3.3"
 db_dep = {path = "../db_dep", version = "^0.1.0"}
 insta = {version = "1.21.0", features = ["filters"]}
 once_cell = "^1.15.0"
 paste = "^1.0.9"
-surrealdb-obj-derive = {path = "../patch/surrealdb-schema-derive", version = "^0.1.0"}
+serde = "^1.0.147"
+serde_json = "^1.0.87"
+surrealdb-obj-derive = {path = "../patch/surrealdb-schema-derive", version = "^0.1.2"}
+#[derive(Debug, Clone, Deserialize, Serialize)]surrealdb-obj-derive = {path = "../patch/surrealdb-schema-derive", version = "^0.1.0"}
 
 [dev-dependencies.db_dep]
 features = ["test"]
 path = "../db_dep"
 
 [features]
+bincode = []
+default = ["test", "serde_json"]
+# default = ["test", "bincode"]
+serde_json = []
 test = ["db_dep/test"]

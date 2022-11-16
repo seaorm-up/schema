@@ -1,0 +1,5 @@
+---
+source: src/macro_model/method_macro/test_smethod.rs
+expression: "format!(\"create app CONTENT {}\", instance)"
+---
+"create app CONTENT { id: 'app:[UID]', name: 'adf' }"
