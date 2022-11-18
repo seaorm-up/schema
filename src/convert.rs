@@ -28,16 +28,6 @@ pub fn deserialize<T: for<'a> Deserialize<'a>>(i: Vec<u8>) -> T {
     })
 }
 
-// pub trait Compression {
-//     fn compression<T: for<'a> serde::Deserialize<'a>>(self) -> T;
-// }
-
-// impl Compression for Value {
-//     fn compression<T: for<'a> serde::Deserialize<'a>>(self) -> T {
-//         deserialize::<T>(serialize(self))
-//     }
-// }
-
 pub trait CompressionWith {
     fn compression_with(value: Value) -> Self;
 }
@@ -50,47 +40,3 @@ impl<T: CompressionWith> CompressionWith for Vec<T> {
         vs.into_iter().map(|e| T::compression_with(e)).collect()
     }
 }
-
-// impl CompressionWith for T {
-//     fn compression_with(value: Value,des: ) -> Self {
-//         deserialize::<T>(
-//             serialize(value)
-//         )
-//     }
-// }
-
-// impl CompressionWith for T {
-//     fn compression_with(value: Value,des: ) -> Self {
-//         deserialize::<T>(
-//             serialize(value)
-//         )
-//     }
-// }
-
-// enum VecWarp {
-//     Vec(Vec<Value>),
-//     Ser(Value),
-// }
-
-// impl From<Vec<Relation>> for VecWarp {
-//     fn from(value: Vec<Relation>) -> Self {
-//         todo!()
-//     }
-// }
-
-// impl CompressionWith for VecWarp {
-//     fn compression_with(value: Value) -> Self {
-//         let mut v = surrealdb::sql::Array::try_from(value).unwrap().0;
-//         v.into_iter()
-//             .map(|e| Relation::compression_with(e))
-//             .collect()
-//     }
-// }
-// impl CompressionWith for Vec<Relation> {
-//     fn compression_with(value: Value) -> Self {
-//         let mut v = surrealdb::sql::Array::try_from(value).unwrap().0;
-//         v.into_iter()
-//             .map(|e| Relation::compression_with(e))
-//             .collect()
-//     }
-// }

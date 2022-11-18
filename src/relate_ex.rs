@@ -49,12 +49,6 @@ fn instance() -> Relation {
 
 #[tokio::test]
 async fn test_relate() {
-    // into value
-    // dbg!(Into::<Value>::into(instance()));
-    // // display
-    // dbg!(format!("{}", Into::<Value>::into(instance())));
-    // // into value and ser
-    // dbg!(serialize(Into::<Value>::into(instance())));
     assert_debug_snapshot!((
         Into::<Value>::into(instance()),
         format!("{}", Into::<Value>::into(instance())),
@@ -87,17 +81,3 @@ impl CompressionWith for Relation {
         }
     }
 }
-
-// impl<'de> Deserialize<'de> for Relation {
-//     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-//     where
-//         D: serde::Deserializer<'de>,
-//     {
-//         let mut map = surrealdb::sql::Object::try_from(value).unwrap().0;
-//         Ok(Relation {
-//             id: map.remove("id").unwrap().record().unwrap(),
-//             from: map.remove("in").unwrap().record().unwrap(),
-//             with: map.remove("out").unwrap().record().unwrap(),
-//         })
-//     }
-// }

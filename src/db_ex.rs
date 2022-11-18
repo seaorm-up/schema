@@ -47,7 +47,7 @@ impl DbX {
             .execute(&txt, &self.session, None, false)
             .await
             .unwrap();
-        // Ok(to_objects(first(v)))
+
         Ok(v.into_iter()
             .map(|response| response.result.unwrap())
             .next()
@@ -55,16 +55,6 @@ impl DbX {
             .unwrap())
     }
 }
-
-// fn to_objects<T: CompressionWith>(values: Vec<Value>) -> Vec<T> {
-//     Vec::<T>::compression_with(values)
-//     // values
-//     //     .into_iter()
-//     //     .map(|value| -> T { deserialize::<T>(serialize(&value)) })
-//     //     .collect::<Vec<T>>()
-//     // deserialize::<Vec<T>>(serialize(values))
-//     // CompressionWith::compression_with(values)
-// }
 
 fn first(responses: Vec<surrealdb::Response>) -> Vec<Value> {
     responses
