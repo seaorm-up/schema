@@ -1,0 +1,69 @@
+---
+source: src/relate_ex.rs
+expression: "(v, v2, v3)"
+---
+(
+    [
+        Object(
+            Object(
+                {
+                    "id": Thing(
+                        Thing {
+                            tb: "identity",
+                            id: String(
+                                "[UID]",
+                            ),
+                        },
+                    ),
+                    "in": Thing(
+                        Thing {
+                            tb: "mobile",
+                            id: Number(
+                                123,
+                            ),
+                        },
+                    ),
+                    "out": Thing(
+                        Thing {
+                            tb: "account",
+                            id: String(
+                                "hz",
+                            ),
+                        },
+                    ),
+                },
+            ),
+        ),
+    ],
+    Array [
+        Object {
+            "id": String("identity:[UID]"),
+            "in": String("mobile:123"),
+            "out": String("account:hz"),
+        },
+    ],
+    Ok(
+        [
+            Relation {
+                id: Thing {
+                    tb: "identity",
+                    id: String(
+                        "[UID]",
+                    ),
+                },
+                from: Thing {
+                    tb: "mobile",
+                    id: Number(
+                        123,
+                    ),
+                },
+                with: Thing {
+                    tb: "account",
+                    id: String(
+                        "hz",
+                    ),
+                },
+            },
+        ],
+    ),
+)

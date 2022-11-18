@@ -2,4 +2,4 @@
 source: src/str_db/test_common.rs
 expression: sql
 ---
-"create app CONTENT { id: 'app:[UID]', name: 'adf' }"
+"create app CONTENT { accounts: [17682318111, 17681951111], id: 'app:[UID]', name: 'adf', opt_name: NONE }"

@@ -53,7 +53,7 @@ async fn compare_obj_and_dbvalue() {
         .await
         .ok();
     let i = instance();
-    let ret = "create app CONTENT { name: 'adf' }"
+    let ret = "insert into app { name: 'adf' }"
         .to_owned()
         .raw_execute_one()
         .await
@@ -63,29 +63,14 @@ async fn compare_obj_and_dbvalue() {
 }
 
 #[tokio::test]
-async fn bin_compare_obj_and_dbvalue() {
-    set_filters!(r"[0-9a-zA-Z]{20}\b", "[UID]",);
-    DbX::new("test".to_owned(), "test".to_owned(), "memory".to_owned())
-        .await
-        .ok();
-    let i = instance();
-    assert_debug_snapshot!(&serialize(serde_json::to_value(&i).unwrap()));
-    let ret = "create app CONTENT { name: 'adf' }"
-        .to_owned()
-        .raw_execute_one()
-        .await
-        .unwrap();
-    assert_debug_snapshot!(serialize(serde_json::to_value(&ret).unwrap()));
-}
-
-#[tokio::test]
 async fn test_value_serde_to_obj() {
     DbX::new("test".to_owned(), "test".to_owned(), "memory".to_owned())
         .await
         .ok();
 
-    let ret = "create app CONTENT { name: 'adf' }"
-        .to_owned()
+    let app = instance();
+
+    let ret = format!("insert into app {}", app)
         .raw_execute_one()
         .await
         .unwrap();

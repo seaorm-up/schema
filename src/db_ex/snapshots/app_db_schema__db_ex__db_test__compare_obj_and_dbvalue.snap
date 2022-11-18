@@ -4,8 +4,13 @@ expression: "[serialize(i), serialize(&ret)]"
 ---
 [
     Object {
+        "accounts": Array [
+            Number(17682318111),
+            Number(17681951111),
+        ],
         "id": String("app:[UID]"),
         "name": String("adf"),
+        "opt_name": Null,
     },
     Array [
         Object {

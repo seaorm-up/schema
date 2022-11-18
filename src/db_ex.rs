@@ -41,26 +41,30 @@ impl DbX {
     pub async fn check_exist(&self, txt: String) -> bool {
         self.raw_execute_one(txt).await.unwrap().len() > 0
     }
-    pub async fn execute_one<T: for<'a> Deserialize<'a>>(
-        &self,
-        txt: String,
-    ) -> Result<Vec<T>, Error> {
+    pub async fn execute_one<T: CompressionWith>(&self, txt: String) -> Result<Vec<T>, Error> {
         let v = self
             .datastore
             .execute(&txt, &self.session, None, false)
             .await
             .unwrap();
-        Ok(to_objects(first(v)))
+        // Ok(to_objects(first(v)))
+        Ok(v.into_iter()
+            .map(|response| response.result.unwrap())
+            .next()
+            .map(|result_value| Vec::<T>::compression_with(result_value))
+            .unwrap())
     }
 }
 
-fn to_objects<T: for<'a> Deserialize<'a>>(values: Vec<Value>) -> Vec<T> {
-    // values
-    //     .into_iter()
-    //     .map(|value| -> T { deserialize::<T>(serialize(&value)) })
-    //     .collect::<Vec<T>>()
-    deserialize::<Vec<T>>(serialize(values))
-}
+// fn to_objects<T: CompressionWith>(values: Vec<Value>) -> Vec<T> {
+//     Vec::<T>::compression_with(values)
+//     // values
+//     //     .into_iter()
+//     //     .map(|value| -> T { deserialize::<T>(serialize(&value)) })
+//     //     .collect::<Vec<T>>()
+//     // deserialize::<Vec<T>>(serialize(values))
+//     // CompressionWith::compression_with(values)
+// }
 
 fn first(responses: Vec<surrealdb::Response>) -> Vec<Value> {
     responses
@@ -69,34 +73,6 @@ fn first(responses: Vec<surrealdb::Response>) -> Vec<Value> {
         .next()
         .map(|result_value| Vec::<Value>::try_from(result_value).unwrap())
         .unwrap()
-}
-
-#[cfg(feature = "serde_json")]
-pub fn serialize<T: Serialize>(i: T) -> serde_json::Value {
-    serde_json::to_value(i).unwrap()
-}
-#[cfg(feature = "serde_json")]
-pub fn deserialize<T: for<'a> Deserialize<'a>>(i: serde_json::Value) -> T {
-    serde_json::from_value::<T>(i.clone()).unwrap_or_else(|e| {
-        panic!(
-            "Failed to convert to JSON, results: {:?}, detail: {:?}",
-            i, e
-        )
-    })
-}
-
-#[cfg(feature = "bincode")]
-pub fn serialize<T: Serialize>(i: T) -> Vec<u8> {
-    bincode::serialize(&i).unwrap()
-}
-#[cfg(feature = "bincode")]
-pub fn deserialize<T: for<'a> Deserialize<'a>>(i: Vec<u8>) -> T {
-    bincode::deserialize::<T>(&i).unwrap_or_else(|e| {
-        panic!(
-            "Failed to convert to JSON, results: {:?}, detail: {:?}",
-            i, e
-        )
-    })
 }
 
 #[cfg(test)]

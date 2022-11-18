@@ -4,16 +4,42 @@ expression: "(&serialize(&i), deserialize::<App>(serialize(&i)), Into::<Value>::
 ---
 (
     Object {
+        "accounts": Array [
+            Number(17682318111),
+            Number(17681951111),
+        ],
         "id": String("app:i2esfym6g2fh06svw449"),
         "name": String("adf"),
+        "opt_name": Null,
     },
     App {
         id: "app:i2esfym6g2fh06svw449",
         name: "adf",
+        opt_name: None,
+        accounts: [
+            17682318111,
+            17681951111,
+        ],
     },
     Object(
         Object(
             {
+                "accounts": Array(
+                    Array(
+                        [
+                            Number(
+                                Int(
+                                    17682318111,
+                                ),
+                            ),
+                            Number(
+                                Int(
+                                    17681951111,
+                                ),
+                            ),
+                        ],
+                    ),
+                ),
                 "id": Strand(
                     Strand(
                         "app:i2esfym6g2fh06svw449",
@@ -24,6 +50,7 @@ expression: "(&serialize(&i), deserialize::<App>(serialize(&i)), Into::<Value>::
                         "adf",
                     ),
                 ),
+                "opt_name": None,
             },
         ),
     ),

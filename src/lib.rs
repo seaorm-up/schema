@@ -39,6 +39,8 @@ mod str_db;
 pub use str_db::*;
 mod macro_model;
 pub use macro_model::*;
+mod convert;
+pub use convert::*;
 
 pub use paste::paste;
 

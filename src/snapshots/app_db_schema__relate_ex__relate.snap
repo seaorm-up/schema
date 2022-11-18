@@ -1,0 +1,42 @@
+---
+source: src/relate_ex.rs
+expression: "(Into::<Value>::into(instance()),\n    format!(\"{}\", Into :: < Value > :: into(instance())),\n    serialize(Into::<Value>::into(instance())))"
+---
+(
+    Object(
+        Object(
+            {
+                "id": Thing(
+                    Thing {
+                        tb: "identity",
+                        id: Number(
+                            1,
+                        ),
+                    },
+                ),
+                "in": Thing(
+                    Thing {
+                        tb: "mobile",
+                        id: Number(
+                            1,
+                        ),
+                    },
+                ),
+                "out": Thing(
+                    Thing {
+                        tb: "account",
+                        id: Number(
+                            1,
+                        ),
+                    },
+                ),
+            },
+        ),
+    ),
+    "{ id: identity:1, in: mobile:1, out: account:1 }",
+    Object {
+        "id": String("identity:1"),
+        "in": String("mobile:1"),
+        "out": String("account:1"),
+    },
+)

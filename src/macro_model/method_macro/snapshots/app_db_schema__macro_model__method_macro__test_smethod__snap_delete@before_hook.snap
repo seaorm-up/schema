@@ -6,5 +6,10 @@ expression: "App::create_app_execute(&instance).await"
     App {
         id: "app:[UID]",
         name: "adf",
+        opt_name: None,
+        accounts: [
+            17682318111,
+            17681951111,
+        ],
     },
 ]

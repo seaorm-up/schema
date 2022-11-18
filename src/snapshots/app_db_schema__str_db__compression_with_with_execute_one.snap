@@ -1,10 +1,10 @@
 ---
-source: src/db_ex/db_test.rs
-expression: "deserialize::<Vec<App>>(reset_bin.clone())"
+source: src/str_db.rs
+expression: ret
 ---
 [
     App {
-        id: "app:[UID]",
+        id: "app:i2esfym6g2fh06svw449",
         name: "adf",
         opt_name: None,
         accounts: [
